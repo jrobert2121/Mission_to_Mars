@@ -7,7 +7,7 @@ import scraping
 app = Flask(__name__)
 
 # set up connection to Mongo
-app.config["MONGO_URI"] = "mongod://localhost:27017/mars_app"
+app.config["MONGO_URI"] = "mongodb://localhost:27017/mars_app"
 mongo = PyMongo(app)
 
 # set up home page
@@ -26,4 +26,3 @@ def scrape():
 
 if __name__ == "__main__":
     app.run()
-    

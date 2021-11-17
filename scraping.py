@@ -1,12 +1,29 @@
 # Import Splinter and BeautifulSoup
+from pandas.core.base import DataError
 from splinter import Browser
 from bs4 import BeautifulSoup as soup
 from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
+import datetime as dt
 
-# Set up splinter
-executable_path = {'executable_path': ChromeDriverManager().install()}
-browser = Browser('chrome', **executable_path, headless=False)
+def scrape_all():
+    # Set up splinter
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=True)
+
+    news_title, news_p = mars_news(browser)
+
+    # run all scraping functions and store restults in dict
+    data = {
+        "news_title": news_title,
+        "news_paragraph": news_p,
+        "featured_image": featured_image(browser),
+        "facts": mars_facts(),
+        "last_modified": dt.datetime.now()
+    }
+    # close browser and return data
+    browser.quit()
+    return data
 
 def mars_news(browser):
 
@@ -24,12 +41,12 @@ def mars_news(browser):
     # add try/except for error handling
     try:
         slide_elem = news_soup.select_one('div.list_text')
-        # Use the parent element to find the first `a` tag and save it as `news_title`
+         # Use the parent element to find the first `a` tag and save it as `news_title`
         news_title = slide_elem.find('div', class_='content_title').get_text()
 
         # Use the parent element to find the paragraph text
         news_p = slide_elem.find('div', class_='article_teaser_body').get_text()
-    
+        
     except AttributeError:
         return None, None
 
@@ -55,7 +72,7 @@ def featured_image(browser):
     try:
         # Find the relative image url
         img_url_rel = img_soup.find('img', class_='fancybox-image').get('src')
-        
+            
     except AttributeError:
         return None
 
@@ -67,7 +84,7 @@ def featured_image(browser):
 # ## Mars Facts
 
 def mars_facts():
-    
+        
     # add try/except for error handling
     try:
         # create dataframe from html table
@@ -78,12 +95,14 @@ def mars_facts():
 
     df.columns=['description', 'Mars', 'Earth']
     df.set_index('description', inplace=True)
-    
+        
     # Convert dataframe into html format, add bootstrap
     return df.to_html()
 
-# close browser
-browser.quit()
+if __name__ == "__main__":
+    # if running as a script, print scraped data
+    print(scrape_all())
+
 
 
 
