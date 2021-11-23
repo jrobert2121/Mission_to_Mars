@@ -122,13 +122,8 @@ def mars_hemispheres(browser):
         hemisphere_image_urls.append(hemispheres)
         browser.back()
 
-        return hemisphere_image_urls
+    return hemisphere_image_urls
 
 if __name__ == "__main__":
     # if running as a script, print scraped data
     print(scrape_all())
-
-
-
-
-
