@@ -13,7 +13,9 @@
   <body>
     <div class="container">
       <!-- Add Jumbotron to Header -->
-      <div class="jumbotron text-center">
+      <div class="jumbotron text-center" 
+      style="background-image: url('https://thumbs.dreamstime.com/z/red-planet-mars-isolated-white-background-element-designers-143164252.jpg');
+      background-position: center; background-size: cover;">
         <h1>Mission to Mars</h1>
         <!-- Add a button to activate scraping script -->
         <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
@@ -32,7 +34,7 @@
       </div>
       <!-- Section for Featured Image and Facts table -->
       <div class="row" id="mars-featured-image">
-        <div class="col-md-8">
+        <div class="col-md-8 col-xs-12 col-sm-6">
           <h2>Featured Mars Image</h2>
           <img
             src="{{mars.featured_image }}"
@@ -40,11 +42,13 @@
             alt="Responsive image"
           />
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 col-xs-6">
           <!-- Mars Facts -->
           <div class="row" id="mars-facts">
-            <h4>Mars Facts</h4>
+            <h2>Mars Facts</h2>
+            <table class="table table-bordered">
             {{ mars.facts | safe }}
+            </table>
           </div>
         </div>
       </div>
